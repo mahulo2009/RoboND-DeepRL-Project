@@ -33,7 +33,7 @@ Robot, Udacity, Deep Reinforcemente Learning.
 
 In this project a Robotic Arm with three degree of freedom will be taught in order to touch a cylindrical shape in the scene. Rather than using the forward and backward kinematic to calculate the position of the arm with respect to the joint angles or to move the arm to a goal position sending demands to the joints, the robot will try some random movements and it will receive a positive or negative reward. A video camera will be recording constatinualsy the robot movement and this information is used to train a neural network, the network will try to reproduce the sequence of movement that maximise the cumulative reward. As the final goal the robot will find the combination of joint movement, without a model, to approximate and finally touch the object in the scene.
 
-Every Episodic finalized when the robot: touch the ground, touch the cylinder or the maximum number of iteration is reached. The final reward will be positive just in case the robot touch the cylinder, and there are some intermediate positive reward bases on smooth movement and when the robot is closer to the cylinder. The problem can be defined as a Markov Decision Process where:
+Every Episodic finalized when the robot: touch the ground, touch the cylinder or the maximum number of iteration is reached. The final reward will be positive just in case the robot touch the cylinder, and there are some intermediate positive reward bases on smooth movement and when the robot is closer to the cylinder. The problem can be defined as a Markov Decision Process \cite{udacity} where:
 \begin{itemize}
 \item a finite set of states: the image from the video camera and all the pixel value combinations.
 \item a finite set of actions: the movement every joint.
@@ -50,7 +50,7 @@ Our goal is to find a function that for every state, the image in this case, tel
 
 \subsection{Deep Q Network}
 
-The Q-Learning algoritm is a model-free algoritm. The values for each state-action pair are estimated based on observation of the environment. The Q-Learning algoritm estimate the state action funcition using the following equation:
+The Q-Learning algoritm is a model-free algoritm. The values for each state-action pair are estimated based on observation of the environment \cite{deepreinforcementlearning}. The Q-Learning algoritm estimate the state action funcition using the following equation:
 
 \begin{align}
 Q(s_{t},a_{t})=(1-\alpha) \cdot Q(s_{t},a_{t})+\alpha \cdot (r_{t}+\gamma max_a\cdot Q(s_{t+1},a))
@@ -95,7 +95,7 @@ The following extra parameters are defined.
 
 \subsection{Long Short Term Memory}
 
-LSTM is a special Recurrent Neural Network, capable of learning long-term dependencies. The Long short-term memory adds memory to the DQN to remember the sequence of movements of the joint to find and touch the object in the scene.
+LSTM is a special Recurrent Neural Network, capable of learning long-term dependencies. The Long short-term memory adds memory to the DQN to remember the sequence of movements of the joint to find and touch the object in the scene \cite{lstmnetwork}.
 
 \section{Robotic Arm}
 
@@ -158,9 +158,23 @@ In order to find the reward and hiper-parameters a trial and error strategy was 
 
 \section{Discussion}
 
+The project consists in completing eight tasks:
+
+\begin{enumerate}
+\item  Subscribe to camera and collision topics: This was easily achieved following the udacity instructions.
+\item  Create the DQN Agent: Udacity provided the class, it was just necessary to create an instance.
+\item  Velocity or position based control of arm joints: position control was selected because it was easier to define the rewards.
+\item Reward for robot gripper hitting the ground: using a bounding box for the gripper it was detected when it was hitting the ground; a negative reward plus a 1\% to the distance to the goal was used.
+\item Issue an interim reward based on the distance to the object: an incremental, reward positive or negative, was used, depending on the robot movement to the goal or not.
+\item Issue a reward based on collision between the arm and the object: a very high number was used to stimulate the robot to move to the goal.
+\item Tuning the hyper parameters: a trail an error approach was used to find the final parameters.
+\item  Issue a reward based on collision between the arm’s gripper base and the object: the same reward and hyper parameters were used for the two objectives.
+\end{itemize}
+
+
 \section{Conclusion / Future work}
 
-
+In order to improve the project a deeper understating about how the reward affects the learning process will be needed. A way to do this can be to visualize the Q-Function using a 2D plot where the x-axis can be the actions, y-axis the state, and the coloured value of the graph the reward. The rewards were selected using some logic about how the human will learn to solve the problem. Different strategies will be needed to be explored in order to find a solution that converges quicklier to the final solution.
 
 % Bibliography
 \begin{thebibliography}{9}
